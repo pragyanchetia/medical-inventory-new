@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js" 
+}
+
+datasource db {
+  provider = "sqlite"
+  url      =  "file:./dev.db"
+}
+
+model Inventory {
+  medicineId String @id @default(cuid())
+
+  medicine_name String  @unique
+  medicine_type String  @default("NULL")
+  pack          String
+  mfgBy         String
+  hsnCode       Int?
+  mkdBy         String?
+
+  total_stock Int
+
+  medicine_batches Batches[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Batches {
+  batchId String @id @default(cuid())
+  batchNo String @unique
+
+  quantity Int
+  mrp      Float
+  rate     Float
+  gst      Float
+  discount Float
+
+  location String
+
+  total_amount Float
+  net_pricing  Float
+
+  expiry String
+
+  medicineId      String
+  batchToMedicine Inventory @relation(fields: [medicineId], references: [medicineId], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invoice_master {
+  invoiceMasterId String @id @default(cuid())
+
+  invoice_date String
+  invoice_No   String @unique
+
+  gross_amount   Float
+  total_discount Float
+  total_gst      Float
+  grand_total    Float
+  added_stock    Int
+
+  vendorMasterId  String
+  invoiceToVendor Vendor_master @relation(fields: [vendorMasterId], references: [vendorMasterId])
+
+  invoice_prices Invoice_prices[]
+
+  updatedAt DateTime @updatedAt
+}
+
+model Vendor_master {
+  vendorMasterId String @id
+
+  vendor_name String @unique
+
+  address  String
+  phone_no Int
+  email    String?
+  dl_no    String @unique
+  gstin    String @unique
+
+  vendor_invoices Invoice_master[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invoice_prices {
+  invoicePriceId String @id @default(cuid())
+
+  medicine_name String
+  medicine_type String @default("NULL")
+  batchNo       String
+  quantity      Int
+  mrp           Float
+  rate          Float
+  gst           Float
+  discount      Float
+
+  total_med_amount Float
+
+  expiry String
+
+  invoiceMasterId      String
+  invoicePriceToMaster Invoice_master @relation(fields: [invoiceMasterId], references: [invoiceMasterId], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Memo_master {
+  memoMasterId String @id @default(cuid())
+
+  memoNo         String  @unique
+  memoDate       String
+  patient_name   String
+  doctor_name    String
+  contact        Int
+  diagnostics    String?
+  address        String?
+  transaction_id String?
+
+  gross_amount   Float
+  total_discount Float
+  total_gst      Float
+  grand_total    Float
+  total_quantity Int
+
+  memo_prices Memo_prices[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Memo_prices {
+  memoPriceId String @id @default(cuid())
+
+  medicine_name String
+  batchNo       String
+  quantity      Int
+  mrp           Float
+  rate          Float
+  gst           Float
+  discount      Float
+
+  total_price Float
+
+  expiry String
+  pack String
+  hsnCode String?
+  mfgBy String
+
+  memoMasterId      String
+  memoPriceToMaster Memo_master @relation(fields: [memoMasterId], references: [memoMasterId], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  userId String @id @default(cuid())
+
+  role     String
+  username String @unique
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

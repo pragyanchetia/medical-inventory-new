@@ -30,9 +30,7 @@ The frontend is built with Next.js and React. The backend exposes Express API ro
 - **Memos / billing workflow** — record customer or patient memo details and the medicines included in a memo.
 - **Database backup route** — includes a dedicated backend route for backup-related operations.
 - **User accounts and authentication** — backend routes and middleware support user-related operations and token-based authentication.
-
-> The modules above are based on the repository's API routes and Prisma schema. Configure and test the application in your environment before using it for real business records.
-
+ 
 ## Technology Stack
 
 | Layer | Technology |

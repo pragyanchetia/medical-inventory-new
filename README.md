@@ -1,140 +1,132 @@
-<div align="center">
-
 # Medical Inventory Management System
 
-**A full-stack application for managing medicine stock, batches, vendors, purchase invoices, and sales memos.**
-
-[![Next.js](https://img.shields.io/badge/Frontend-Next.js-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-20232A?logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Express](https://img.shields.io/badge/Backend-Express-404D59?logo=express)](https://expressjs.com/)
-[![Prisma](https://img.shields.io/badge/ORM-Prisma-2D3748?logo=prisma)](https://www.prisma.io/)
-[![SQLite](https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite)](https://www.sqlite.org/)
-
-</div>
-
----
+A full-stack web application for managing medical inventory, tracking medicine stock, maintaining supplier and purchase records, and handling sales and billing workflows.
 
 ## Overview
 
-The Medical Inventory Management System is a full-stack application intended to support day-to-day medicine inventory workflows. Its data model covers medicines, stock batches, vendors, purchase invoices, invoice line items, memos, and user accounts.
+The Medical Inventory Management System is designed to organize day-to-day inventory operations for a medical business. It provides a centralized interface for managing medicine details, monitoring batch-level stock and expiry information, recording purchases, and maintaining sales and billing records.
 
-The frontend is built with Next.js and React. The backend exposes Express API routes and uses Prisma with a local SQLite database.
+The application uses a React-based frontend, a Node.js backend, and Prisma ORM with SQLite for data persistence.
 
-## Core Modules
+## Features
 
-- **Medicine inventory** — maintain medicine names, types, manufacturers, pack details, HSN information, and total stock.
-- **Batch tracking** — record batch numbers, quantities, expiry details, locations, rates, MRP, GST, and discounts.
-- **Vendor management** — store supplier information and associate vendors with invoices.
-- **Purchase invoices** — capture invoice-level totals and medicine line items.
-- **Memos / billing workflow** — record customer or patient memo details and the medicines included in a memo.
-- **Database backup route** — includes a dedicated backend route for backup-related operations.
-- **User accounts and authentication** — backend routes and middleware support user-related operations and token-based authentication.
- 
+- **Medicine Management:** Maintain medicine records, including product details, manufacturers, packaging information, HSN details, and related inventory data.
+- **Inventory Tracking:** Organize stock at the batch level and maintain expiry information.
+- **Supplier Management:** Maintain vendor information for purchase-related operations.
+- **Purchase Management:** Record purchase invoices and manage their associated line items.
+- **Sales and Billing:** Maintain sales memos and billing information, including patient and doctor details where applicable, along with invoice totals.
+- **Form Validation:** Use structured form handling and schema validation for supported input workflows.
+- **Database Management:** Use Prisma ORM and SQLite to manage application data and database migrations.
+
 ## Technology Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | Next.js, React |
-| UI components | Material UI, Radix UI |
-| Forms and validation | React Hook Form, Zod |
-| API communication | Axios |
-| Backend | Node.js, Express, TypeScript |
-| ORM | Prisma |
-| Database | SQLite |
-| Authentication utilities | JSON Web Tokens, bcryptjs |
+### Frontend
+- Next.js
+- React
+- TypeScript
+- Material UI
+- Radix UI
+- React Hook Form
+- Zod
 
-## Repository Layout
+### Backend
+- Node.js
+- Express.js
+- TypeScript
+- Prisma ORM
+- SQLite
 
-```text
-frontend/                 Next.js UI
-backend/
-  src/
-    index.ts              Express server entry point
-    middleware/           Authentication middleware
-    routes/               User, inventory, invoice, vendor, memo, backup APIs
-  prisma/
-    schema.prisma         Database schema
-    migrations/           Schema migration history
-```
+### Authentication and Security
+- JWT-based authentication
+- bcrypt for password hashing
+
+### Supporting Tools
+- Axios for HTTP requests
+- Prisma migrations for database schema management
+
+## Architecture
+
+The application follows a client-server architecture:
+
+1. **Frontend:** Provides the user interface for inventory, purchase, and billing workflows.
+2. **Backend API:** Handles application requests and business logic.
+3. **Database:** Stores application records using SQLite, accessed through Prisma ORM.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js and npm
-- A terminal
-- Environment configuration where required
+Install the following tools before running the application:
 
-### 1. Clone the repository
+- Node.js and npm
+- Git
+
+### Clone the Repository
 
 ```bash
 git clone https://github.com/pragyanchetia/medical-inventory-new.git
 cd medical-inventory-new
 ```
 
-### 2. Set up the backend
+### Install Dependencies
+
+Install the dependencies separately in the frontend and backend directories, using the package files provided by the repository.
 
 ```bash
-cd backend
+cd frontend
 npm install
+```
+
+```bash
+cd ../backend
+npm install
+```
+
+> **Note:** Adjust the directory names if the repository uses a different frontend/backend structure. Use the scripts defined in each `package.json` to start the respective services.
+
+### Configure Environment Variables
+
+Create the environment files required by the frontend and backend. Configure the API URL, authentication secrets, and database connection according to the project's configuration.
+
+Do not commit `.env` files, credentials, or production secrets to GitHub.
+
+### Database Setup
+
+Configure the SQLite database connection used by Prisma. If the project defines Prisma migrations, apply the appropriate migrations using the scripts or commands specified in the repository.
+
+For example, where supported by the project's Prisma configuration:
+
+```bash
 npx prisma generate
-npm run dev
+npx prisma migrate deploy
 ```
 
-The backend defaults to port **4000** unless `PORT` is set. Its Prisma schema uses a SQLite file at `backend/prisma/dev.db`.
+For local development, use the migration workflow documented by the project. Back up any existing database before applying migrations to a database containing important data.
 
-### 3. Set up the frontend
+### Run the Application
 
-In a second terminal, from the repository root:
+Start the backend and frontend using the development scripts defined in their respective `package.json` files. Open the local frontend URL printed by the frontend development server.
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+Refer to the actual project configuration for the correct ports, environment variables, and startup commands.
 
-The Next.js development server normally runs at [http://localhost:3000](http://localhost:3000). The backend currently configures CORS for that local origin.
+## Project Structure
 
-### Production build
+The application contains frontend and backend code, database configuration, and supporting application modules. Refer to the repository directories for the current implementation structure.
 
-Frontend:
+## Future Improvements
 
-```bash
-cd frontend
-npm run build
-npm start
-```
+- Add automated unit and integration tests.
+- Strengthen request validation and role-based access control.
+- Improve error handling and audit logging.
+- Document database backup and restoration procedures.
+- Add deployment configuration and production-readiness checks.
 
-Backend, in a separate terminal:
+## Disclaimer
 
-```bash
-cd backend
-npm run build
-npm start
-```
-
-## Environment and Database Notes
-
-- Review the backend and frontend configuration before running the app.
-- Keep credentials and environment files out of Git.
-- The backend checks for the SQLite database file before serving several API route groups.
-- Create or restore the database using the project's Prisma schema and migrations. Do not overwrite an existing database with sample or empty data.
-
-## Development Scripts
-
-| Directory | Command | Purpose |
-|---|---|---|
-| `frontend` | `npm run dev` | Run Next.js in development |
-| `frontend` | `npm run build` | Build the frontend |
-| `backend` | `npm run dev` | Run the backend with Nodemon |
-| `backend` | `npm run build` | Generate Prisma Client and compile TypeScript |
-| `backend` | `npm start` | Start the compiled backend |
-
-## Security and Production Readiness
-
-This project manages inventory and billing-style records, so production deployment should include secure secrets management, HTTPS, access controls, tested backups, input validation, and a review of authentication/session settings. Avoid using real patient or business data in development environments.
+This project is a software development project for medical inventory workflows. It is not a certified medical device or a substitute for validated healthcare or financial systems. Review authentication, access control, data protection, backups, and deployment configuration before using it with real business or patient data.
 
 ## Author
 
-[Pragyan Chetia](https://github.com/pragyanchetia)
+**Pragyan Chetia**
+
+GitHub: https://github.com/pragyanchetia

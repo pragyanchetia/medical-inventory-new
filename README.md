@@ -128,5 +128,3 @@ This project is a software development project for medical inventory workflows. 
 ## Author
 
 **Pragyan Chetia**
-
-GitHub: https://github.com/pragyanchetia
